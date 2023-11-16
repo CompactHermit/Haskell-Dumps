@@ -1,0 +1,7 @@
+# Haskell:: Somehting is vomiting this out, why?
+dist-newstyle/
+
+# Nix Snuffs
+.direnv/
+.pre-commit-config.yaml
+result/
