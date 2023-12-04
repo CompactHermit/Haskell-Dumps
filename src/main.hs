@@ -1,10 +1,11 @@
 module Main where
 
+import Data.Either ()
 import Data.Word (Word8)
 
 -- From Excercie 1.3
 -- Sum types
-data Deal a b -- has Card = |a| +|b| + 2
+data Deal a b
     = Thing a
     | Deuce b
     | Other Bool

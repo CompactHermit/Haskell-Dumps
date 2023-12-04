@@ -36,7 +36,10 @@ common shared
 
 library
   import:           shared
-  exposed-modules:  TTT
+  exposed-modules:
+    Excercises
+    TTT
+
   hs-source-dirs:   lib
   default-language: Haskell2010
 
