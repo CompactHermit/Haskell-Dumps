@@ -11,6 +11,16 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Packages::
+    liquid-fixpoint = {
+      url = "github:ucsd-progsys/liquid-fixpoint";
+      flake = false;
+    };
+    Liquidhaskell = {
+      url = "github:ucsd-progsys/liquidhaskell";
+      flake = false;
+    };
   };
   outputs = inputs @ {parts, ...}:
     parts.lib.mkFlake {inherit inputs;} {
@@ -40,7 +50,7 @@
               package = pkgs.haskellPackages.fourmolu;
             };
             cabal-fmt.enable = true;
-            hlint.enable = true;
+            #hlint.enable = true;
           };
           settings = {
             formatter.ormolu = {
@@ -67,21 +77,82 @@
           };
         };
 
-        haskellProjects.Project = {
+        haskellProjects.tester = {
+          # FUCK:: THIS will take forever to boot
+          #basePackages = pkgs.haskell.packages.ghc981;
           projectRoot = ./.;
           projectFlakeName = "Testing Haskell Support";
-          packages = {};
-          devShell.tools = hp: {
-            inherit
-              (hp)
-              haskell-language-server
-              ghcid
-              ghci-dap
-              haskell-debug-adapter
-              stack
-              ;
+          packages = {
+            #liquidhaskell-boot.source = "0.9.8.1";
+            #liquidhaskell.source = "0.9.8.1";
           };
-          settings = {};
+          settings = {
+            ##TODO:: Make a __mkJailbreak function and just mapAttrs over it.
+            relude = {
+              haddock = false;
+              broken = false;
+              jailbreak = true;
+            };
+            smtlib-backends.jailbreak = true;
+            smtlib-backends-process = {
+              broken = false;
+              check = false;
+              jailbreak = true;
+            };
+            liquidhaskell = {pkgs, ...}: {
+              check = false;
+              broken = false;
+              jailbreak = true;
+              extraBuildTools = with pkgs; [z3];
+              #This, doesnt work? Fuck
+              # custom = pkg:
+              #   pkgs.haskell.lib.overrideCabal pkg (o: {
+              #     enableLibraryProfiling = false;
+              #     buildTools = (o.buildTools or []) ++ [super.z3];
+              #   });
+            };
+            liquidhaskell-boot = {
+              check = false;
+              broken = false;
+              jailbreak = true;
+            };
+            liquid-fixpoint = {
+              check = false;
+              broken = false;
+              jailbreak = true;
+            };
+            liquid-prelude = {pkgs, ...}: {
+              check = false;
+              broken = false;
+              jailbreak = true;
+              extraBuildTools = with pkgs; [z3];
+            };
+            liquid-vector = {pkgs, ...}: {
+              check = false;
+              broken = false;
+              jailbreak = true;
+              extraBuildTools = with pkgs; [z3];
+            };
+            hoogle = {
+              jailbreak = true;
+              check = false;
+            };
+          };
+          devShell = {
+            hlsCheck.enable = true;
+            hoogle = true;
+            benchmark = true;
+            tools = hp: {
+              inherit
+                (hp)
+                haskell-language-server
+                ghcid
+                ghci-dap
+                haskell-debug-adapter
+                ;
+            };
+            extraLibraries = hp: {inherit (hp) hspec z3;};
+          };
         };
 
         devShells.default = pkgs.mkShell {
@@ -89,8 +160,16 @@
           inputsFrom = with config; [
             treefmt.build.devShell
             pre-commit.devShell
-            haskellProjects.Project.outputs.devShell
+            haskellProjects.tester.outputs.devShell
           ];
+          LIQUID_DEV_MODE = true; # NOTE::(Hermit) Needed for z3 solver to do shits
+          buildInputs = with pkgs; [z3];
+          shellHook =
+            # sh
+            ''
+              export XDG_CACHE_HOME=$(mktemp -d)
+
+            '';
         };
       };
     };

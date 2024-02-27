@@ -1,8 +1,8 @@
-{-# LANGUAGE DerivingStrategies #-}
 -- TODO:: TO GHC OPTION
 {-# LANGUAGE GADTs #-}
 
-module Excercises where
+{- Chapter 1 Example Problems-}
+module ExcercisesUn where
 
 -- From Sandy Maguire "Thinking with types"
 
@@ -18,7 +18,7 @@ _solution14a_TO f _ (Left b) = f b
 _solution14a_TO _ g (Right c) = g c
 
 -- NOTE:: (Hermit) I'll disable this to ensure Pre-commit doesn't shit itself
--- Inputs are tuples. as we can have k*n inputs, given that they are disjoint. Hence, we often don't require inputs to be in brakcets, as they're assumed to be by default
+-- Inputs are tuples. as ee can have k*n inputs, given that they are disjoint. Hence, we often don't require inputs to be in brackets, as they're assumed to be by default
 -- This yields to redundancy and incompleteness, as seen here
 -- _solution14a_TO_ALT :: -- Equivelant to _14a_TO
 --     ((b -> a), (c -> a))

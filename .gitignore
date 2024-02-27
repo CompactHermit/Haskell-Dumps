@@ -1,7 +1,10 @@
-# Haskell:: Somehting is vomiting this out, why?
+# Haskell::
 dist-newstyle/
+.liquid/
+
 
 # Nix Snuffs
 .direnv/
 .pre-commit-config.yaml
 result/
+.session.vim
