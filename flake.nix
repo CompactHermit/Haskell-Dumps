@@ -153,6 +153,7 @@
                 inherit (hp)
                   haskell-language-server
                   cabal-fmt
+                  cabal-gild
                   ghcid
                   ghci-dap
                   haskell-debug-adapter

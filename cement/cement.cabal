@@ -25,6 +25,7 @@ common shared
         , base
         , liquidhaskell
         , liquidhaskell-boot
+        , lens
         , unliftio
 
 library
