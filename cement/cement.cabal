@@ -1,0 +1,55 @@
+cabal-version: 3.0
+name:          VulkanPlayground
+synopsis:      Vulkan Playground and CFFI's
+version:       1.0.0
+maintainer:    hermit@compacthermit.dev
+author:        Compact Hermit
+description:
+    Haskell Graphics Programming, particular to study the haskell Compiler's internal way to handle ffi's.
+
+build-type:    Simple
+
+common shared
+    default-language: Haskell2010
+    ghc-options:
+        -threaded -rtsopts -with-rtsopts=-N -fplugin=LiquidHaskellBoot
+        -fwrite-ide-info -hiedir=.hie -Wmissing-deriving-strategies
+        -Wunused-foralls -fprint-explicit-foralls -fprint-explicit-kinds
+        -Wall -Wincomplete-record-updates -Wincomplete-uni-patterns
+        -Wunused-packages -Wno-name-shadowing -Wno-unused-imports
+        -Wno-unused-binds -Wno-unused-local-binds -Wno-unused-matches
+        -Wno-missing-signatures -Wno-partial-type-signatures
+
+    build-depends:
+        , aeson
+        , base
+        , liquidhaskell
+        , liquidhaskell-boot
+        , unliftio
+
+library
+    import:           shared
+    exposed-modules:
+        Cement.GLFW
+        Cement.GLFW.Wayland
+
+    hs-source-dirs:   lib
+    default-language: Haskell2010
+
+executable Cement
+    import:            shared
+    hs-source-dirs:    src
+    main-is:           Main.hs
+    pkgconfig-depends: glfw3, vulkan, x11, wayland-client
+    ghc-options:
+        -threaded -rtsopts -with-rtsopts=-N -fwrite-ide-info -hiedir=.hie
+
+test-suite test
+    import:         shared
+    type:           exitcode-stdio-1.0
+    hs-source-dirs: test
+    main-is:        Spec.hs
+    build-depends:
+        , base
+        , hspec
+        , relude

@@ -17,6 +17,6 @@ data Mixed a where
         {mixedBit :: !Word8, numerator :: a, denominator :: a} ->
         Mixed a
 
-main :: IO ()
-main =
-    print "Hello World"
+main = do
+    let x = "3"
+    print x

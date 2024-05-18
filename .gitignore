@@ -1,6 +1,9 @@
 # Haskell::
 dist-newstyle/
 .liquid/
+*.hie
+tags
+stan.html
 
 
 # Nix Snuffs
