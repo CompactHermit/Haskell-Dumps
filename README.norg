@@ -14,3 +14,4 @@ version: 1.1.1
 * Books::
 ** {:$main/Math/ThinkTypes:}[Math/ThinkTypes]
 ** {:$/CS/vulkan-book-hs:}[Haskell Book]
+** {:$CS/Production-Haksell:}[Production-Haksell]

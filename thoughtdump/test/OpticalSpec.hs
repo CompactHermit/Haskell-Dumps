@@ -15,7 +15,7 @@ spec = do
 
     describe "Actual Optics Test" $ do
         it "Test Lens Composition" $ do
-            _x (_point (shiftAtomX atom)) `shouldBe` 1.1
+            _x (_point (shiftAtomX atom)) `shouldBe` (1.1 :: Double)
 
     describe "List Sanity Test" $ do
         it "only contains one test" $ do

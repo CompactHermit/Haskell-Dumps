@@ -3,6 +3,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     parts.url = "github:hercules-ci/flake-parts";
     haskell-flake.url = "github:srid/haskell-flake";
+    ghciwatch.url = "github:mercurytechnologies/ghciwatch";
     pch = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +29,7 @@
       debug = true;
       systems = [
         "x86_64-linux"
-        "aarch64-darwin"
+        # "aarch64-linux"
       ];
       imports = with inputs; [
         treefmt-nix.flakeModule
@@ -37,12 +38,17 @@
       ];
 
       perSystem =
-        { pkgs, config, ... }:
+        {
+          pkgs,
+          config,
+          system,
+          ...
+        }:
         {
           treefmt = {
             projectRootFile = "flake.nix";
             programs = {
-              nixfmt-rfc-style.enable = true;
+              nixfmt.enable = true;
               ormolu = {
                 enable = true;
                 package = pkgs.haskellPackages.fourmolu;
@@ -51,7 +57,7 @@
             };
             settings = {
               formatter.ormolu = {
-                options = [
+                ghcOpts = [
                   "--ghc-opt"
                   "-XImportQualifiedPost"
                   "--ghc-opt"
@@ -69,7 +75,7 @@
               };
               hooks = {
                 treefmt.enable = true;
-                #hpack.enable = true;
+                hpack.enable = true;
               };
             };
           };
@@ -163,6 +169,12 @@
             };
           };
 
+          checks = {
+            tester-thoughtdump = inputs.weeder-nix.lib."${system}".makeWeederCheck {
+              haskellPackages = pkgs.haskellPackages;
+              packages = [ "tester-thoughtdump" ];
+            };
+          };
           devShells.default = pkgs.mkShell {
             name = "Haskell Devshells";
             inputsFrom = with config; [
@@ -171,8 +183,11 @@
               haskellProjects.tester.outputs.devShell
             ];
             DIRENV_LOG_FORMAT = ""; # NOTE:: Makes direnv shutup
-            LIQUID_DEV_MODE = true; # NOTE::(Hermit) Needed for z3 solver to do shits
-            buildInputs = with pkgs; [ z3 ];
+            #LIQUID_DEV_MODE = true; # NOTE::(Hermit) Needed for z3 solver to do shits
+            buildInputs = builtins.attrValues {
+              inherit (pkgs) z3;
+              inherit (inputs.ghciwatch.packages."${system}") default;
+            };
           };
         };
     };
