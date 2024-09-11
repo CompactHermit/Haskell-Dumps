@@ -19,9 +19,8 @@ common shared
     -threaded
     -rtsopts
     -with-rtsopts=-N
-    -fplugin=LiquidHaskellBoot
-    -fwrite-ide-info
-    -hiedir=.hie
+    -- -fwrite-ide-info
+    -- -hiedir=.hie
     -Wunused-foralls
     -fprint-explicit-foralls
     -fprint-explicit-kinds
@@ -44,17 +43,19 @@ common shared
     aeson,
     async,
     base,
-    ghc,
+    --ghc,
+    text,
     lens,
-    liquidhaskell,
-    liquidhaskell-boot,
-    optics,
+    --liquidhaskell,
+    --liquidhaskell-boot,
+    optics-core,
     template-haskell,
     template-haskell-optics,
 
 library
   import: shared
   exposed-modules:
+    Applicatives
     DoPure
     ExcercisesDuo
     ExcercisesTre
@@ -63,8 +64,11 @@ library
     Heap
     Main
     OpticsPrism
+    SIMD
     TTT
     Template
+    Traversable
+    Tree
 
   hs-source-dirs: src
   default-language: Haskell2010

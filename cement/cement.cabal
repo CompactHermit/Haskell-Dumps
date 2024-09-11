@@ -23,8 +23,8 @@ common shared
     build-depends:
         , aeson
         , base
-        , liquidhaskell
-        , liquidhaskell-boot
+        -- , liquidhaskell
+        -- , liquidhaskell-boot
         , lens
         , unliftio
 

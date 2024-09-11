@@ -1,0 +1,2 @@
+hoogle:
+    hoogle server

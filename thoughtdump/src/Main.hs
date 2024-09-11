@@ -1,22 +1,23 @@
 {-# LANGUAGE GADTs #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module Main where
 
-import Data.Either ()
-import Data.Word (Word8)
+import Language.Haskell.TH (Quote)
+import Language.Haskell.TH.Syntax (Exp)
 
--- From Excercie 1.3
--- Sum types
-data Deal a b where
-    Thing :: a -> Deal a b
-    Deuce :: b -> Deal a b
-    Other :: Bool -> Deal a b
+Strictness
 
-data Mixed a where
-    Mixed ::
-        {mixedBit :: !Word8, numerator :: a, denominator :: a} ->
-        Mixed a
+data Vec where
+  Vec :: !Int -> Vec
+
+local z = Vec 2
+
+onceC, twoC, x :: Quote m => m Exp
+onceC = [|1|]
+twoC = [|2|]
+x = [|$onceC + $twoC|]
 
 main = do
-    let x = "3"
-    print x
+  let x = "3"
+  print x

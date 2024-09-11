@@ -1,9 +1,16 @@
 {
+  nixConfig = {
+    extra-substituters = "https://cache.ners.ch/haskell";
+    extra-trusted-public-keys = "haskell:WskuxROW5pPy83rt3ZXnff09gvnu80yovdeKDw5Gi3o=";
+  };
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     parts.url = "github:hercules-ci/flake-parts";
     haskell-flake.url = "github:srid/haskell-flake";
-    ghciwatch.url = "github:mercurytechnologies/ghciwatch";
+    service-flake.url = "github:juspay/services-flake";
+    # hoogle = {
+    #   url = "git+https://git.mangoiv.com/mangoiv/modern-hoogle";
+    # };
     pch = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,6 +52,18 @@
           ...
         }:
         {
+          # _module.args.pkgs = import inputs.nixpkgs {
+          #   inherit system;
+          #   overlays = [
+          #     (_: super: {
+          #       haskellPackages = super.haskellPackages.extend (
+          #         selfH: superH: {
+          #           hoogle = inputs.hoogle.packages."${system}".modern-hoogle;
+          #         }
+          #       );
+          #     })
+          #   ];
+          # };
           treefmt = {
             projectRootFile = "flake.nix";
             programs = {
@@ -53,7 +72,6 @@
                 enable = true;
                 package = pkgs.haskellPackages.fourmolu;
               };
-              #hlint.enable = true;
             };
             settings = {
               formatter.ormolu = {
@@ -82,15 +100,11 @@
 
           haskellProjects.tester = {
             # FUCK:: THIS will take forever to boot
-            basePackages = pkgs.haskell.packages.ghc981;
+            basePackages = pkgs.haskell.packages.ghc98;
             projectRoot = ./.;
             projectFlakeName = "Testing Haskell Support";
-            # packages = {
-            #   liquidhaskell-boot.source = "0.9.8.1";
-            #   liquidhaskell.source = "0.9.8.1";
-            # };
+
             settings = {
-              # TODO:: Make a __mkJailbreak function and just mapAttrs over it.
               relude = {
                 haddock = false;
                 broken = false;
@@ -142,39 +156,39 @@
                   jailbreak = true;
                   extraBuildTools = with pkgs; [ z3 ];
                 };
-              hoogle = {
-                jailbreak = true;
-                check = false;
-              };
+              # hoogle = {
+              #   jailbreak = true;
+              #   check = false;
+              # };
               template-haskell-optics = {
                 jailbreak = true;
                 broken = false;
               };
             };
             devShell = {
-              hlsCheck.enable = true;
+              #hlsCheck.enable = true;
               hoogle = true;
               benchmark = true;
               tools = hp: {
                 inherit (hp)
-                  haskell-language-server
+                  haskell-debug-adapter
                   cabal-fmt
                   cabal-gild
                   ghcid
+                  ghcide
                   ghci-dap
-                  haskell-debug-adapter
                   ;
               };
               extraLibraries = hp: { inherit (hp) hspec z3; };
             };
           };
-
-          checks = {
-            tester-thoughtdump = inputs.weeder-nix.lib."${system}".makeWeederCheck {
-              haskellPackages = pkgs.haskellPackages;
-              packages = [ "tester-thoughtdump" ];
-            };
-          };
+          #
+          # checks = {
+          #   tester-thoughtdump = inputs.weeder-nix.lib."${system}".makeWeederCheck {
+          #     haskellPackages = pkgs.haskellPackages;
+          #     packages = [ "tester-thoughtdump" ];
+          #   };
+          # };
           devShells.default = pkgs.mkShell {
             name = "Haskell Devshells";
             inputsFrom = with config; [
@@ -185,8 +199,13 @@
             DIRENV_LOG_FORMAT = ""; # NOTE:: Makes direnv shutup
             #LIQUID_DEV_MODE = true; # NOTE::(Hermit) Needed for z3 solver to do shits
             buildInputs = builtins.attrValues {
-              inherit (pkgs) z3;
-              inherit (inputs.ghciwatch.packages."${system}") default;
+              inherit (pkgs)
+                z3
+                cabal2nix
+                pcre
+                pcre2
+                just
+                ;
             };
           };
         };

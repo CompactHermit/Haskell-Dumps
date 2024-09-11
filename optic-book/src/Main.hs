@@ -1,13 +1,11 @@
-{-# LANGUAGE GADTs #-}
-{-# LANGUAGE TemplateHaskell #-}
-
 module Main where
 
-import Language.Haskell.TH.Syntax (Code)
+import GHC.IO.Buffer ()
 
-power :: Int -> Int -> Int
-power 0 p = 1
-power n p = p * power (n - 1) p
+data Pair a = Pair a a deriving (Show)
+
+instance Functor Pair where
+  fmap f_ (Pair a b) = Pair (f_ a) (f_ b)
 
 main = do
-    pure ()
+  pure ()

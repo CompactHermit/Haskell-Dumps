@@ -8,7 +8,7 @@ module ExcercisesTre where
 flake x y z = print ([(n, 2 ^ n) | n <- [0 .. 20]])
 
 mixer = print z
-  where
-    x = "f"
-    y = (++) x x
-    z = (++) y x
+ where
+  x = "f"
+  y = (++) x x
+  z = (++) y x

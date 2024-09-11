@@ -7,11 +7,14 @@ categories: [
     Haskell
 ]
 created: 2023-11-16T14:26:10-0500
-updated: 2024-06-14T12:56:19-0500
+updated: 2024-09-01T16:48:23-0500
 version: 1.1.1
 @end
-
-* Books::
-** {:$main/Math/ThinkTypes:}[Math/ThinkTypes]
-** {:$/CS/vulkan-book-hs:}[Haskell Book]
-** {:$CS/Production-Haksell:}[Production-Haksell]
+* Haskell Workspaces/ScratchSpaces::
+** Books::
+*** {:$main/Math/AlgebraDriven:}[Math/Algebraic Driven Design]
+*** {:$/CS/vulkan-book-hs:}[Haskell Vulkan Book]
+*** {:$main/Math/ThinkTypes:}[Math/ThinkTypes]
+*** {:$/CS/Haskell/Haskell-in-Depth:}[Haskell in Depth]
+*** {:$CS/Production-Haksell:}[Production-Haksell]
+*** {:$CS/optics-book:}[Optics Books]
