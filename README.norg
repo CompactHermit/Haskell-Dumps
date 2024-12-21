@@ -10,6 +10,7 @@ created: 2023-11-16T14:26:10-0500
 updated: 2024-09-01T16:48:23-0500
 version: 1.1.1
 @end
+
 * Haskell Workspaces/ScratchSpaces::
 ** Books::
 *** {:$main/Math/AlgebraDriven:}[Math/Algebraic Driven Design]
@@ -18,3 +19,10 @@ version: 1.1.1
 *** {:$/CS/Haskell/Haskell-in-Depth:}[Haskell in Depth]
 *** {:$CS/Production-Haksell:}[Production-Haksell]
 *** {:$CS/optics-book:}[Optics Books]
+
+* Useful Links::
+  ~ {https://github.com/Tritlo/OllamaHoles}[LLM Holes Cleaning]
+  ~ {https://wiki.haskell.org/Stack_overflow}[Haskell Stack]
+
+
+

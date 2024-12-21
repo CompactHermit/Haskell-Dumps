@@ -1,0 +1,8 @@
+{
+    "embedding_function": "SomeEmbeddingFunction",
+    "embedding_params": {
+        "url": "http://127.0.0.1:7000/api/embeddings",
+        "model_name": "nomic-ai/nomic-embed-text-v1.5-GGUF"
+    },
+    "port": 8181
+}

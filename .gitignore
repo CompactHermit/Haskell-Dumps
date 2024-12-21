@@ -2,8 +2,11 @@
 dist-newstyle/
 .liquid/
 *.hie
+*.ho
+*.o
 tags
 *tags
+Main
 stan.html
 
 

@@ -1,0 +1,6 @@
+# Used for genrating Haskell Dependencies without bloating flake.inputs
+
+[infuse]
+src.git = "https://codeberg.org/amjoseph/infuse.nix"
+fetch.git = "https://codeberg.org/amjoseph/infuse.nix"
+

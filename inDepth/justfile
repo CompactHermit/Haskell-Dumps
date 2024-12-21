@@ -1,0 +1,5 @@
+build:
+    cabal build Turns
+
+test:
+    cabal test

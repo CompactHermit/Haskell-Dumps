@@ -2,3 +2,6 @@ packages:
  ./thoughtdump
  ./optic-book
  ./inDepth
+
+profiling: true
+--multi-repl: True

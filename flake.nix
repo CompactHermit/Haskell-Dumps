@@ -8,9 +8,6 @@
     parts.url = "github:hercules-ci/flake-parts";
     haskell-flake.url = "github:srid/haskell-flake";
     service-flake.url = "github:juspay/services-flake";
-    # hoogle = {
-    #   url = "git+https://git.mangoiv.com/mangoiv/modern-hoogle";
-    # };
     pch = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -19,7 +16,6 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     # Packages::
     liquid-fixpoint = {
       url = "github:ucsd-progsys/liquid-fixpoint";
@@ -27,6 +23,10 @@
     };
     Liquidhaskell = {
       url = "github:ucsd-progsys/liquidhaskell";
+      flake = false;
+    };
+    ollama-holes-plugin = {
+      url = "github:Tritlo/OllamaHoles";
       flake = false;
     };
   };
@@ -52,18 +52,9 @@
           ...
         }:
         {
-          # _module.args.pkgs = import inputs.nixpkgs {
-          #   inherit system;
-          #   overlays = [
-          #     (_: super: {
-          #       haskellPackages = super.haskellPackages.extend (
-          #         selfH: superH: {
-          #           hoogle = inputs.hoogle.packages."${system}".modern-hoogle;
-          #         }
-          #       );
-          #     })
-          #   ];
-          # };
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+          };
           treefmt = {
             projectRootFile = "flake.nix";
             programs = {
@@ -104,16 +95,31 @@
             projectRoot = ./.;
             projectFlakeName = "Testing Haskell Support";
 
+            packages = {
+              #Adding Ollama Holes to the repo
+              ollama-holes-plugin.source = inputs.ollama-holes-plugin;
+            };
             settings = {
               relude = {
                 haddock = false;
                 broken = false;
                 jailbreak = true;
               };
+              ollama-haskell = {
+                haddock = false;
+                broken = false;
+                jailbreak = true;
+                check = false;
+              };
               smtlib-backends.jailbreak = true;
               smtlib-backends-process = {
                 broken = false;
                 check = false;
+                jailbreak = true;
+              };
+              ollama-holes-plugin = {
+                check = false;
+                broken = false;
                 jailbreak = true;
               };
               liquidhaskell =
@@ -201,6 +207,7 @@
             buildInputs = builtins.attrValues {
               inherit (pkgs)
                 z3
+                gdb
                 cabal2nix
                 pcre
                 pcre2

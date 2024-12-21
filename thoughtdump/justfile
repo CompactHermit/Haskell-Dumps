@@ -1,0 +1,8 @@
+hoogle:
+    hoogle server
+
+build:
+    cabal build thoughtdumps
+
+run:
+    cabal run thoughtdumps +RTS -pj

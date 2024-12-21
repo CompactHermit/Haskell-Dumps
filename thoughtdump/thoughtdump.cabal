@@ -14,11 +14,16 @@ flag develop
   default: False
   manual: True
 
+-- https://nikita-volkov.github.io/profiling-cabal-projects/
 common shared
   ghc-options:
+    -O2
+    -prof
+    -fprof-auto
     -threaded
     -rtsopts
-    -with-rtsopts=-N
+    -fexternal-interpreter
+    "-with-rtsopts=-N -p -s -hc -i0.1"
     -- -fwrite-ide-info
     -- -hiedir=.hie
     -Wunused-foralls
@@ -43,11 +48,11 @@ common shared
     aeson,
     async,
     base,
-    --ghc,
+    ghc,
     text,
     lens,
-    --liquidhaskell,
-    --liquidhaskell-boot,
+    -- liquidhaskell,
+    -- liquidhaskell-boot,
     optics-core,
     template-haskell,
     template-haskell-optics,
@@ -70,19 +75,14 @@ library
     Traversable
     Tree
 
+
   hs-source-dirs: src
   default-language: Haskell2010
 
 executable thoughtdumps
   import: shared
-  hs-source-dirs: lib/
+  hs-source-dirs: src/
   main-is: Main.hs
-  ghc-options:
-    -threaded
-    -rtsopts
-    -with-rtsopts=-N
-    -fwrite-ide-info
-    -hiedir=.hie
 
 test-suite sanity-check
   import: shared

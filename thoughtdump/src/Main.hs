@@ -1,23 +1,12 @@
-{-# LANGUAGE GADTs #-}
-{-# LANGUAGE TemplateHaskell #-}
+module Main (main) where
 
-module Main where
+len :: [a] -> Int
+len [] = 0
+len (x : xs) = len xs + 1
 
-import Language.Haskell.TH (Quote)
-import Language.Haskell.TH.Syntax (Exp)
+len' :: [a] -> Int -> Int
+len' [] acc = acc
+len' (x : xs) acc = len' xs (1 + acc)
 
-Strictness
-
-data Vec where
-  Vec :: !Int -> Vec
-
-local z = Vec 2
-
-onceC, twoC, x :: Quote m => m Exp
-onceC = [|1|]
-twoC = [|2|]
-x = [|$onceC + $twoC|]
-
-main = do
-  let x = "3"
-  print x
+main :: IO ()
+main = print $ len' [1 :: Int .. 200000 :: Int] 0

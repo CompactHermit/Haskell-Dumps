@@ -9,18 +9,18 @@ module TTT where
 -- The Inneficient solution
 -----------------------------
 data TickTackToeInneficient a where
-  TickTackToeInneficient
-    :: { tl :: a
-       , tm :: a
-       , tr :: a
-       , ml :: a
-       , mm :: a
-       , mr :: a
-       , bl :: a
-       , bm :: a
-       , br :: a
-       }
-    -> TickTackToeInneficient a
+  TickTackToeInneficient ::
+    { tl :: a,
+      tm :: a,
+      tr :: a,
+      ml :: a,
+      mm :: a,
+      mr :: a,
+      bl :: a,
+      bm :: a,
+      br :: a
+    } ->
+    TickTackToeInneficient a
 
 -- The inneficnet implemetnation
 emptyBoardBAD :: TickTackToeInneficient (Maybe Bool)
@@ -48,10 +48,10 @@ data Three where
 -- data TicTacToe a = TicTacToe2
 --     {board :: Three -> Three -> a} -- (Intext)
 data TicTacToe a where
-  TicTacToe2
-    :: { board :: Three -> Three -> a
-       }
-    -> TicTacToe a
+  TicTacToe2 ::
+    { board :: Three -> Three -> a
+    } ->
+    TicTacToe a
 
 emptyBoard :: TicTacToe (Maybe Bool)
 emptyBoard =

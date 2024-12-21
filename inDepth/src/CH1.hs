@@ -35,3 +35,4 @@ vocab1 = do
   {-Prints all words with whitespace delimiter-}
   TIO.putStrLn $ T.unwords ws
   print $ length ws
+

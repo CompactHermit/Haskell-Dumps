@@ -18,7 +18,6 @@ common shared
         -Wall -Wincomplete-record-updates -Wincomplete-uni-patterns
         -Wunused-packages -Wno-name-shadowing -Wno-unused-imports
         -Wno-unused-binds -Wno-unused-local-binds -Wno-unused-matches
-        -Wno-missing-signatures -Wno-partial-type-signatures
 
     build-depends:
         , aeson
